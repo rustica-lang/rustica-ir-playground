@@ -1,0 +1,424 @@
+{
+  "scopeName": "source.mor",
+  "name": "mor",
+  "fileTypes": ["mor"],
+  "patterns": [
+    {
+      "include": "#comments"
+    },
+    {
+      "include": "#strings"
+    },
+    {
+      "include": "#constants"
+    },
+    {
+      "include": "#keywords"
+    },
+    {
+      "include": "#modules"
+    },
+    {
+      "include": "#structs"
+    },
+    {
+      "include": "#traits"
+    },
+    {
+      "include": "#enums"
+    },
+    {
+      "include": "#effects"
+    },
+    {
+      "include": "#functions"
+    },
+    {
+      "include": "#variables"
+    },
+    {
+      "include": "#types"
+    },
+    {
+      "include": "#match-expressions"
+    }
+  ],
+  "repository": {
+    "comments": {
+      "patterns": [
+        {
+          "name": "comment.line.double-slash.mor",
+          "match": "//.*$"
+        },
+        {
+          "name": "comment.block.mor",
+          "begin": "/\\*",
+          "end": "\\*/"
+        }
+      ]
+    },
+    "strings": {
+      "patterns": [
+        {
+          "name": "string.quoted.double.mor",
+          "begin": "\"",
+          "end": "\"",
+          "patterns": [
+            {
+              "name": "constant.character.escape.mor",
+              "match": "\\\\."
+            }
+          ]
+        }
+      ]
+    },
+    "constants": {
+      "patterns": [
+        {
+          "name": "constant.numeric.integer.mor",
+          "match": "\\b\\d+\\b"
+        },
+        {
+          "name": "constant.numeric.float.mor",
+          "match": "\\b\\d+\\.\\d+\\b"
+        },
+        {
+          "name": "constant.language.mor",
+          "match": "\\b(true|false|\\(\\))\\b"
+        },
+        {
+          "name": "constant.language.cardinality.mor",
+          "match": "\\b(Single|Empty|Option|Some|Many|Multi)\\b"
+        }
+      ]
+    },
+    "keywords": {
+      "patterns": [
+        {
+          "name": "keyword.control.mor",
+          "match": "\\b(if|else|while|break|return|let|mut|in|with|handle|resume)\\b"
+        },
+        {
+          "name": "keyword.other.mor",
+          "match": "\\b(fn|api|enum|effect|match|case|hn|struct|concept|trait|module|import|extern|pub)\\b"
+        },
+        {
+          "name": "storage.type.function.arrow.mor",
+          "match": "->"
+        },
+        {
+          "name": "storage.type.function.arrow.mor",
+          "match": "=>"
+        },
+        {
+          "name": "storage.type.function.arrow.mor",
+          "match": "~>"
+        },
+        {
+          "name": "keyword.operator.assignment.mor",
+          "match": "="
+        },
+        {
+          "name": "keyword.operator.other.mor",
+          "match": "\\|>"
+        },
+        {
+          "name": "keyword.operator.comparison.mor",
+          "match": "(===|==|!=|>=|<=|(?<!-)(?<!\\|)>(?!>)|<(?!<))"
+        },
+        {
+          "name": "keyword.operator.logical.mor",
+          "match": "(\\bnot\\b|&&|\\|\\|)"
+        },
+        {
+          "name": "keyword.operator.bitwise.mor",
+          "match": "(\\|(?!\\|)(?!>)|&(?!&)|\\^|<<|>>)"
+        },
+        {
+          "name": "keyword.operator.math.mor",
+          "match": "(\\+|-(?!>)|\\*|%|/)"
+        }
+      ]
+    },
+    "types": {
+      "patterns": [
+        {
+          "name": "entity.name.type.builtin.mor",
+          "match": "\\b(Int|Bool|Unit|Text|String|UUID|Type|Card)\\b"
+        },
+        {
+          "name": "entity.name.type.generic.mor",
+          "match": "\\b(Set|Link|Map|List|Array)\\b"
+        },
+        {
+          "name": "entity.name.type.mor",
+          "match": "\\b([A-Z][a-zA-Z0-9_]*)\\b"
+        },
+        {
+          "name": "entity.name.type.effect.mor",
+          "match": "<([A-Z][a-zA-Z0-9_]*)>",
+          "captures": {
+            "1": { "name": "entity.name.type.effect.mor" }
+          }
+        },
+        {
+          "name": "meta.type.generic.mor",
+          "match": "\\b([A-Z][a-zA-Z0-9_]*)\\[([^\\]]+)\\]",
+          "captures": {
+            "1": { "name": "entity.name.type.generic.mor" },
+            "2": { "name": "meta.type-parameters.mor" }
+          }
+        }
+      ]
+    },
+    "functions": {
+      "patterns": [
+        {
+          "name": "meta.function.extern.mor",
+          "match": "\\b(extern)\\s+\"([^\"]+)\"\\s+(fn)\\s+([a-zA-Z_][a-zA-Z0-9_]*)",
+          "captures": {
+            "1": { "name": "keyword.other.mor" },
+            "2": { "name": "string.quoted.double.mor" },
+            "3": { "name": "keyword.other.mor" },
+            "4": { "name": "entity.name.function.mor" }
+          }
+        },
+        {
+          "name": "meta.function.public.mor",
+          "match": "\\b(pub)\\s+(fn)\\s+([a-zA-Z_][a-zA-Z0-9_]*)",
+          "captures": {
+            "1": { "name": "keyword.other.mor" },
+            "2": { "name": "keyword.other.mor" },
+            "3": { "name": "entity.name.function.mor" }
+          }
+        },
+        {
+          "name": "entity.name.function.mor",
+          "match": "\\b([a-z][a-zA-Z0-9_]*)\\s*\\(",
+          "captures": {
+            "1": { "name": "entity.name.function.mor" }
+          }
+        },
+        {
+          "name": "entity.name.function.mor",
+          "match": "(?<=\\bfn\\s+)\\b([a-zA-Z_][a-zA-Z0-9_]*)\\b"
+        }
+      ]
+    },
+    "variables": {
+      "patterns": [
+        {
+          "name": "variable.other.mor",
+          "match": "\\b([a-z][a-zA-Z0-9_]*)\\b"
+        }
+      ]
+    },
+    "enums": {
+      "patterns": [
+        {
+          "name": "meta.enum.mor",
+          "begin": "\\b(enum)\\s+([a-zA-Z_][a-zA-Z0-9_]*)\\s*\\{",
+          "end": "\\}",
+          "beginCaptures": {
+            "1": { "name": "keyword.other.mor" },
+            "2": { "name": "entity.name.type.enum.mor" }
+          },
+          "patterns": [
+            {
+              "include": "#enum-variants"
+            }
+          ]
+        }
+      ]
+    },
+    "enum-variants": {
+      "patterns": [
+        {
+          "name": "constant.language.mor",
+          "match": "\\b([A-Z][a-zA-Z0-9_]*)\\b"
+        }
+      ]
+    },
+    "effects": {
+      "patterns": [
+        {
+          "name": "meta.effect.mor",
+          "begin": "\\b(effect)\\s+([a-zA-Z_][a-zA-Z0-9_]*)\\s*\\{",
+          "end": "\\}",
+          "beginCaptures": {
+            "1": { "name": "keyword.other.mor" },
+            "2": { "name": "entity.name.type.effect.mor" }
+          },
+          "patterns": [
+            {
+              "include": "#effect-operations"
+            }
+          ]
+        }
+      ]
+    },
+    "effect-operations": {
+      "patterns": [
+        {
+          "name": "entity.name.function.effect.mor",
+          "match": "\\b([a-zA-Z_][a-zA-Z0-9_]*)\\s*\\("
+        }
+      ]
+    },
+    "modules": {
+      "patterns": [
+        {
+          "name": "meta.module.mor",
+          "match": "\\b(module)\\s+([a-zA-Z_][a-zA-Z0-9_]*)",
+          "captures": {
+            "1": { "name": "keyword.other.mor" },
+            "2": { "name": "entity.name.namespace.mor" }
+          }
+        },
+        {
+          "name": "meta.import.mor",
+          "match": "\\b(import)\\s+([a-zA-Z_][a-zA-Z0-9_.]*)\\s+(as)\\s+([a-zA-Z_][a-zA-Z0-9_]*)",
+          "captures": {
+            "1": { "name": "keyword.other.mor" },
+            "2": { "name": "entity.name.namespace.mor" },
+            "3": { "name": "keyword.other.mor" },
+            "4": { "name": "entity.name.namespace.mor" }
+          }
+        }
+      ]
+    },
+    "structs": {
+      "patterns": [
+        {
+          "name": "meta.struct.mor",
+          "begin": "\\b(struct)\\s+([a-zA-Z_][a-zA-Z0-9_]*)\\s*\\{",
+          "end": "\\}",
+          "beginCaptures": {
+            "1": { "name": "keyword.other.mor" },
+            "2": { "name": "entity.name.type.struct.mor" }
+          },
+          "patterns": [
+            {
+              "include": "#struct-fields"
+            }
+          ]
+        }
+      ]
+    },
+    "struct-fields": {
+      "patterns": [
+        {
+          "name": "variable.other.member.mor",
+          "match": "\\b([a-z][a-zA-Z0-9_]*)\\s*:",
+          "captures": {
+            "1": { "name": "variable.other.member.mor" }
+          }
+        },
+        {
+          "include": "#types"
+        },
+        {
+          "include": "#constants"
+        }
+      ]
+    },
+    "traits": {
+      "patterns": [
+        {
+          "name": "meta.trait.mor",
+          "begin": "\\b(trait)\\s+([a-zA-Z_][a-zA-Z0-9_]*)\\s*(\\[.*?\\])?\\s*\\{",
+          "end": "\\}",
+          "beginCaptures": {
+            "1": { "name": "keyword.other.mor" },
+            "2": { "name": "entity.name.type.trait.mor" },
+            "3": { "name": "meta.type-parameters.mor" }
+          },
+          "patterns": [
+            {
+              "include": "#trait-constraints"
+            },
+            {
+              "include": "#functions"
+            }
+          ]
+        }
+      ]
+    },
+    "trait-constraints": {
+      "patterns": [
+        {
+          "name": "meta.type-constraint.mor",
+          "match": "\\b([A-Z][a-zA-Z0-9_]*)\\s*:\\s*([A-Z][a-zA-Z0-9_]*)",
+          "captures": {
+            "1": { "name": "variable.parameter.mor" },
+            "2": { "name": "entity.name.type.mor" }
+          }
+        }
+      ]
+    },
+    "match-expressions": {
+      "patterns": [
+        {
+          "name": "meta.match.mor",
+          "begin": "\\b(match)\\s+([a-zA-Z_][a-zA-Z0-9_]*)\\s*\\{",
+          "end": "\\}",
+          "beginCaptures": {
+            "1": { "name": "keyword.other.mor" },
+            "2": { "name": "variable.other.mor" }
+          },
+          "patterns": [
+            {
+              "include": "#match-patterns"
+            }
+          ]
+        }
+      ]
+    },
+    "match-patterns": {
+      "patterns": [
+        {
+          "name": "meta.pattern.destructuring.mor",
+          "begin": "\\{\\s*([a-zA-Z_][a-zA-Z0-9_]*)\\s*(?:,\\s*([a-zA-Z_][a-zA-Z0-9_]*))*\\s*\\}\\s*=>",
+          "end": "(?=\\})",
+          "beginCaptures": {
+            "1": { "name": "variable.other.mor" },
+            "2": { "name": "variable.other.mor" }
+          },
+          "patterns": [
+            {
+              "include": "#types"
+            },
+            {
+              "include": "#constants"
+            },
+            {
+              "include": "#keywords"
+            }
+          ]
+        }
+      ]
+    },
+    "type-parameters": {
+      "patterns": [
+        {
+          "name": "variable.parameter.type.mor",
+          "match": "\\b([A-Z][a-zA-Z0-9_]*)\\b"
+        },
+        {
+          "name": "meta.type-constraint.mor",
+          "match": "\\b([A-Z][a-zA-Z0-9_]*)\\s*:\\s*([A-Z][a-zA-Z0-9_]*)",
+          "captures": {
+            "1": { "name": "variable.parameter.type.mor" },
+            "2": { "name": "entity.name.type.mor" }
+          }
+        },
+        {
+          "include": "#types"
+        }
+      ]
+    },
+    "operators": {
+      "patterns": []
+    }
+  }
+}
