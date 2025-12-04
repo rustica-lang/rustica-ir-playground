@@ -55,6 +55,33 @@ fn test() -> Int {
 }`},{id:"exception",title:"HKT Monad",code:`struct Monad[M: (Type) -> Type, A, B] {
    return_: (A) -> M[A]
    bind: (M[A], A -> M[B]) -> M[B]
+}`},{id:"deterministic",title:"Deterministic",code:`enum List[T] {
+  Nil
+  Cons(T, List[T])  
+}
+
+effect Random {
+   rand() -> Bool 
+}
+
+fn or() -> <Random> Bool {
+  let x = rand()  
+  let y = rand()
+  x || y 
+}
+
+fn append[T](x : List[T], y: List[T]) -> List[T] {
+   match x {
+      Nil => y 
+      Cons(x1, xs) => Cons(x1, append(y, xs))
+    } 
+}
+
+fn handler() -> ((<Random> Bool) ~> List[Bool]) {
+   hn {
+      rand() => append(resume(true), resume(false))
+      return x => Cons(x, Nil)
+    }
 }`}];let Wn=null;function fs(){const n=document.getElementById("snippetsList");$e.forEach(e=>{const t=document.createElement("div");t.className="snippet-item",t.dataset.snippetId=e.id,t.innerHTML=`
                     <div class="snippet-title">${e.title}</div>
                 `,t.addEventListener("click",()=>zn(e.id)),n.appendChild(t)})}function zn(n){const e=$e.find(r=>r.id===n);if(!e)return;document.querySelectorAll(".snippet-item").forEach(r=>{r.dataset.snippetId===n?r.classList.add("active"):r.classList.remove("active")});const t=document.getElementById("input");t.value=e.code,Wn=n,ee(),Q(),Z()}function _s(){const e=document.getElementById("input").value,t=btoa(unescape(encodeURIComponent(e))),r=new URL(window.location.href);r.searchParams.set("code",t),navigator.clipboard.writeText(r.toString()).then(()=>{const i=document.getElementById("shareButton"),o=i.textContent;i.textContent="✓ Copied",i.style.background="#4caf50",setTimeout(()=>{i.textContent=o,i.style.background=""},2e3)}).catch(i=>{console.error("Failed to copy:",i),prompt("Copy the following link:",r.toString())})}function gs(){let n="";const e=Bn+"Output",t=document.getElementById(e);if(t&&(n=t.innerText||t.textContent),!n||n.trim()==="")return;const r=document.getElementById("copyOutputBtn");navigator.clipboard.writeText(n).then(()=>{r.classList.add("copied"),r.querySelector("span").textContent="Copied!",setTimeout(()=>{r.classList.remove("copied"),r.querySelector("span").textContent="Copy"},2e3)}).catch(i=>{console.error("Failed to copy output:",i)})}function ys(){const e=new URLSearchParams(window.location.search).get("code");if(e)try{const t=decodeURIComponent(escape(atob(e))),r=document.getElementById("input");r.value=t,document.querySelectorAll(".snippet-item").forEach(i=>{i.classList.remove("active")}),Wn=null,ee(),Q(),Z()}catch(t){console.error("Failed to decode code from URL:",t)}}window.addEventListener("load",async function(){document.querySelectorAll(".tab").forEach(t=>{t.addEventListener("click",function(){const r=this.getAttribute("data-tab");ps(r,this)})}),fs(),document.getElementById("shareButton").addEventListener("click",_s),document.getElementById("copyOutputBtn").addEventListener("click",gs),new URLSearchParams(window.location.search).get("code")?ys():$e.length>0&&zn($e[0].id),await Gn(),await jn(),ee(),await Un(),document.getElementById("input").value.trim()!==""&&await Hn()});
