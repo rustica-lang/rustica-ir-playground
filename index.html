@@ -342,6 +342,41 @@
         color: #fff;
       }
 
+      .header-actions {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .copy-button {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        padding: 5px 10px;
+        background: transparent;
+        border: 1px solid #3e3e42;
+        color: #969696;
+        cursor: pointer;
+        font-size: 12px;
+        border-radius: 3px;
+        transition: all 0.2s;
+      }
+
+      .copy-button:hover {
+        background: #3e3e42;
+        color: #d4d4d4;
+      }
+
+      .copy-button.copied {
+        background: #4caf50;
+        border-color: #4caf50;
+        color: #fff;
+      }
+
+      .copy-button svg {
+        flex-shrink: 0;
+      }
+
       textarea {
         position: absolute;
         top: 0;
@@ -444,7 +479,7 @@
         background: #4e4e4e;
       }
     </style>
-    <script type="module" crossorigin src="/rustica-ir-playground/assets/index-NssN8Jm9.js"></script>
+    <script type="module" crossorigin src="/rustica-ir-playground/assets/index-CcozaESe.js"></script>
   </head>
   <body>
     <div class="container">
@@ -504,10 +539,19 @@
       <div class="panel">
         <div class="panel-header">
           <span>Output</span>
-          <div class="tabs">
-            <button class="tab active" data-tab="sexp">S-expression</button>
-            <button class="tab" data-tab="pretty">Pretty</button>
-            <button class="tab" data-tab="moonbit">MoonBit</button>
+          <div class="header-actions">
+            <div class="tabs">
+              <button class="tab active" data-tab="sexp">S-expression</button>
+              <button class="tab" data-tab="pretty">Pretty</button>
+              <button class="tab" data-tab="moonbit">MoonBit</button>
+            </div>
+            <button class="copy-button" id="copyOutputBtn" title="Copy output">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+              </svg>
+              <span>Copy</span>
+            </button>
           </div>
         </div>
         <div id="sexpOutput" class="output">Compiling...</div>
