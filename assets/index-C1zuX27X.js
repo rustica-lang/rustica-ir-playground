@@ -27,13 +27,14 @@ fn handler_always_true() -> ((<Decide> Int) ~> Int) {
   hn { decide() => resume(true) + 1 }
 }
 
-fn main() -> Int {
+fn main() -> Unit {
   let handler = handler_always_true()
-  handle { 
+  let result = handle { 
     let x = if decide() { 1 } else { 2 }
     let y = if decide() { 3 } else { 4 }
     x - y
   } with handler
+  println(result)
 }`},{id:"state",title:"SafeDivision",code:`effect Exn[T] {
   raise(String) -> T
 }
@@ -50,8 +51,9 @@ fn handler() -> ((<Exn[Int]> Int) ~> Int) {
   }
 }
 
-fn main() -> Int {
-  handle { div(5, 0) } with handler()
+fn main() -> Unit {
+  let result = handle { div(5, 0) } with handler()
+  println(result)
 }`},{id:"exception",title:"HKT Monad",code:`struct Monad[M: (Type) -> Type, A, B] {
    return_: (A) -> M[A]
    bind: (M[A], A -> M[B]) -> M[B]
